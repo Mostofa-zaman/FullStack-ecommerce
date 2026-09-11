@@ -122,4 +122,20 @@ let loginController = async (req, res) => {
     });
   }
 };
-module.exports = { registrationController,loginController };
+
+let verifyEmailController = async (req,res)=>{
+
+  let {token} = req.params
+
+
+var decoded = jwt.verify(token,process.env.JWT_SECRET);
+
+await User.findByIdAndUpdate({_id:decoded._id},{isVerified:true})
+
+res.status(200).json({
+  success:true,
+  messege:'email verified'
+})
+
+}
+module.exports = { registrationController,loginController,verifyEmailController };
