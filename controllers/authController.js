@@ -76,4 +76,50 @@ let registrationController = async (req, res) => {
   });
 };
 
-module.exports = { registrationController};
+let loginController = async (req, res) => {
+  let { email, password } = req.body;
+
+  let existingUser = await User.findOne({ email });
+
+  if (!existingUser) {
+    return res.status(400).json({
+      success: false,
+      message: "invalid credentials",
+    });
+  }
+
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: "all fields are required",
+    });
+  }
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid email format",
+    });
+  }
+
+  let passCompare = bcrypt.compareSync(password, existingUser.password);
+
+  if (passCompare) {
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      data: {
+        _id: existingUser._id,
+        fullName: existingUser.fullName,
+        email: existingUser.email,
+        role: existingUser.role,
+      },
+    });
+  } else {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid credentials",
+    });
+  }
+};
+module.exports = { registrationController,loginController };
