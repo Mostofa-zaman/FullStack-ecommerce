@@ -50,7 +50,6 @@ let registrationController = async (req, res) => {
     fullName: fullName,
     email: email,
     password: hash,
-    confirmPassword: hash,
     terms: terms,
   });
 
@@ -105,6 +104,18 @@ let loginController = async (req, res) => {
   let passCompare = bcrypt.compareSync(password, existingUser.password);
 
   if (passCompare) {
+    let accessToken = jwt.sign(
+      {
+        _id: existingUser._id,
+        email: existingUser.email,
+        role: existingUser.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      },
+    );
+
     res.status(200).json({
       success: true,
       message: "Login successful",
@@ -114,7 +125,9 @@ let loginController = async (req, res) => {
         email: existingUser.email,
         role: existingUser.role,
       },
+      accessToken:accessToken
     });
+
   } else {
     return res.status(400).json({
       success: false,
@@ -123,19 +136,20 @@ let loginController = async (req, res) => {
   }
 };
 
-let verifyEmailController = async (req,res)=>{
+let verifyEmailController = async (req, res) => {
+  let { token } = req.params;
 
-  let {token} = req.params
+  var decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+  await User.findByIdAndUpdate({ _id: decoded._id }, { isVerified: true });
 
-var decoded = jwt.verify(token,process.env.JWT_SECRET);
-
-await User.findByIdAndUpdate({_id:decoded._id},{isVerified:true})
-
-res.status(200).json({
-  success:true,
-  messege:'email verified'
-})
-
-}
-module.exports = { registrationController,loginController,verifyEmailController };
+  res.status(200).json({
+    success: true,
+    messege: "email verified",
+  });
+};
+module.exports = {
+  registrationController,
+  loginController,
+  verifyEmailController,
+};
