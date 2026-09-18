@@ -27,5 +27,22 @@ async function sendVerificationEmail(email,token){
   console.error("Error while sending mail:", err);
 }
 }
+async function forgotPasswordEmail(email,token){
+    try {
+  const info = await transporter.sendMail({
+    from: 'mostofazaman1234@gmail.com', // sender address
+    to: email, // list of recipients
+    subject: "reset password", // subject line
+    text: `Please click the following link to verify your email: http://localhost:3000/verify-email?token=${token}`, // plain text body
+    html: `<p>Please reset the password: <a href="http://localhost:3000/reset-password?token=${token}">Click here</a></p>`, // HTML body
+  });
 
-module.exports = {sendVerificationEmail}
+  console.log("Message sent: %s", info.messageId);
+  // Preview URL is only available when using an Ethereal test account
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+} catch (err) {
+  console.error("Error while sending mail:", err);
+}
+}
+
+module.exports = {sendVerificationEmail,forgotPasswordEmail}

@@ -1,11 +1,14 @@
 const User = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { sendVerificationEmail } = require("../utils/emailSender");
+const {
+  sendVerificationEmail,
+  forgotPasswordEmail,
+} = require("../utils/emailSender");
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+// const passwordRegex =
+//   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 let registrationController = async (req, res) => {
   let { fullName, email, password, confirmPassword, terms } = req.body;
@@ -125,9 +128,8 @@ let loginController = async (req, res) => {
         email: existingUser.email,
         role: existingUser.role,
       },
-      accessToken:accessToken
+      accessToken: accessToken,
     });
-
   } else {
     return res.status(400).json({
       success: false,
@@ -139,7 +141,7 @@ let loginController = async (req, res) => {
 let verifyEmailController = async (req, res) => {
   let { token } = req.params;
 
-  var decoded = jwt.verify(token, process.env.JWT_SECRET);
+  var decoded = jwt.verify(token, process.env.JWT_VERIFY_SECRET);
 
   await User.findByIdAndUpdate({ _id: decoded._id }, { isVerified: true });
 
@@ -148,8 +150,72 @@ let verifyEmailController = async (req, res) => {
     messege: "email verified",
   });
 };
+
+let forgotPassword = async (req, res) => {
+  let { email } = req.body;
+
+  let existingUser = await User.findOne({ email });
+  if (!existingUser) {
+    return res.status(400).json({
+      success: false,
+      message: "user not found",
+    });
+  }
+  let resetPasswordToken = jwt.sign(
+    {
+      _id: existingUser._id,
+      email: existingUser.email,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "2m",
+    },
+  );
+
+  forgotPasswordEmail(email, resetPasswordToken);
+  res.status(200).json({
+    success: true,
+    message: "please check your email for reset password",
+  });
+};
+
+let resetPassword = async (req, res) => {
+  let { token } = req.params;
+  let { newPassword, confirmPassword } = req.body;
+
+  var decoded = jwt.verify(token, process.env.JWT_SECRET);
+  let statusCode = 200;
+  let success = true;
+  let message = "";
+
+  if (decoded) {
+    if (newPassword == confirmPassword) {
+      const hash = bcrypt.hashSync(newPassword, 10);
+
+      await User.findByIdAndUpdate({ _id: decoded._id }, { password: hash });
+
+      message = "password updated";
+    } else {
+      statusCode = 400;
+      success = false;
+      message = "password not match";
+    }
+  } else {
+    statusCode = 400;
+    success = false;
+    message = "invalid token";
+  }
+
+  return res.status(statusCode).json({
+    success: success,
+    massege: message,
+  });
+};
+
 module.exports = {
   registrationController,
   loginController,
   verifyEmailController,
+  forgotPassword,
+  resetPassword,
 };
