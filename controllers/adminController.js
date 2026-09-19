@@ -54,4 +54,6 @@ const updateUserController = async (req,res) => {
 
 
 
+
+
 module.exports ={allUserController,singleUserController,activeUserController,deActiveUserController,updateUserController,}
