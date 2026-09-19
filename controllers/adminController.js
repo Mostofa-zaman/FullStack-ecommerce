@@ -9,7 +9,7 @@ let allUserController =async (req,res,next)=>{
    })
 }
 
-const singleUserController = async (req,res) => {
+let singleUserController = async (req,res) => {
     let {id} = req.params  
     let data = await User.findById({_id:id}).select('-password')
     res.status(200).json({
@@ -19,7 +19,7 @@ const singleUserController = async (req,res) => {
     })
 }
 
-const activeUserController = async (req,res) => {
+let activeUserController = async (req,res) => {
 
     let data = await User.find({status : 'active'})
     res.status(200).json({
@@ -29,7 +29,7 @@ const activeUserController = async (req,res) => {
     })
 }
 
-const deActiveUserController = async (req,res) => {
+let deActiveUserController = async (req,res) => {
 
     let data = await User.find({status : 'deactive'})
     res.status(200).json({
@@ -39,7 +39,7 @@ const deActiveUserController = async (req,res) => {
     })
 }
 
-const updateUserController = async (req,res) => {
+let updateUserController = async (req,res) => {
     
     let {id} = req.params
 
@@ -50,7 +50,7 @@ const updateUserController = async (req,res) => {
     })
 }
 
-const updateCategory = async (req, res) => {
+let updateCategoryController = async (req, res) => {
   let { id } = req.params;
 
   if (req.body.name) {
@@ -77,8 +77,26 @@ const updateCategory = async (req, res) => {
   });
 };
 
+let deleteCategoryController = async (req, res) => {
+  let { id } = req.params;
+
+  const deletedCategory = await Categories.findByIdAndDelete(id);
+
+  if (!deletedCategory) {
+    return res.status(404).json({
+      success: false,
+      message: "category not found",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "category deleted successfully",
+  });
+};
 
 
 
 
-module.exports ={allUserController,singleUserController,activeUserController,deActiveUserController,updateUserController,updateCategory,}
+
+module.exports ={allUserController,singleUserController,activeUserController,deActiveUserController,updateUserController,updateCategoryController,deleteCategoryController}

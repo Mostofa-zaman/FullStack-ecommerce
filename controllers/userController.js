@@ -1,8 +1,13 @@
 const Categories = require("../models/categorySchema");
 
-let userController = (req, res) => {
-  res.send("eugfe7d ");
-};
+let  allCategories = async (req,res) => {
+    let categories = await Categories.find({})
+    return res.status(200).json({
+        success : true,
+        message : "All categories",
+        data : categories
+    })
+}
 let createCategory = async (req, res) => {
   let { name } = req.body;
 
@@ -36,4 +41,4 @@ let createCategory = async (req, res) => {
   });
 };
 
-module.exports = { userController, createCategory };
+module.exports = { allCategories, createCategory };
