@@ -9,7 +9,7 @@ _.get("/all-user", allUserController);
 _.get("/user/:id", singleUserController);
 _.get("/active/user", activeUserController);
 _.get("/deactive/user", deActiveUserController);
-_.post("/updateuser/:id", updateUserController);
+_.post("/update/user/:id", updateUserController);
 
 _.delete("/delete-user/:id", deleteUserController);
 

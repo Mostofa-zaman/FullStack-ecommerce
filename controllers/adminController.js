@@ -50,7 +50,32 @@ const updateUserController = async (req,res) => {
     })
 }
 
+const updateCategory = async (req, res) => {
+  let { id } = req.params;
 
+  if (req.body.name) {
+    req.body.name = req.body.name.toLowerCase();
+  }
+
+  let updatedCategory = await Categories.findByIdAndUpdate(
+    { _id: id },
+    req.body,
+    { new: true }
+  );
+
+  if (!updatedCategory) {
+    return res.status(404).json({
+      success: false,
+      message: "Category not found",
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Category updated successfully",
+    data: updatedCategory,
+  });
+};
 
 
 
