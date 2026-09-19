@@ -19,5 +19,17 @@ const singleUserController = async (req,res) => {
     })
 }
 
+const activeUserController = async (req,res) => {
 
-module.exports ={allUserController,singleUserController}
+    let data = await User.find({status : 'active'})
+    res.status(200).json({
+        success : true,
+        message : `Active user information`,
+        data : data
+    })
+}
+
+
+
+
+module.exports ={allUserController,singleUserController,activeUserController,}
