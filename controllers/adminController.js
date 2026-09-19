@@ -81,4 +81,4 @@ const updateCategory = async (req, res) => {
 
 
 
-module.exports ={allUserController,singleUserController,activeUserController,deActiveUserController,updateUserController,}
+module.exports ={allUserController,singleUserController,activeUserController,deActiveUserController,updateUserController,updateCategory,}

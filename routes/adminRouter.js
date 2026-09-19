@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { allUserController, singleUserController, activeUserController, deActiveUserController, updateUserController,  } = require("../controllers/adminController");
+const { allUserController, singleUserController, activeUserController, deActiveUserController, updateUserController, updateCategory,  } = require("../controllers/adminController");
 const { deleteUserController } = require("../controllers/deleteUserController");
 
 const _ = express.Router();
@@ -172,5 +172,7 @@ _.post("/update/user/:id", updateUserController);
  */
 
 _.delete("/delete-user/:id", deleteUserController);
+
+_.post("/update/category/:id", updateCategory)
 
 module.exports = _;
