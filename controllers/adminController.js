@@ -9,4 +9,15 @@ let allUserController =async (req,res,next)=>{
    })
 }
 
-module.exports ={allUserController}
+const singleUserController = async (req,res) => {
+    let {id} = req.params  
+    let data = await User.findById({_id:id}).select('-password')
+    res.status(200).json({
+        success : true,
+        message : `User information`,
+        data : data
+    })
+}
+
+
+module.exports ={allUserController,singleUserController}
