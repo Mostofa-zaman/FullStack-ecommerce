@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { allUserController, singleUserController, activeUserController, deactiveUserController } = require("../controllers/adminController");
+const { allUserController, singleUserController, activeUserController, deActiveUserController,  } = require("../controllers/adminController");
 const { deleteUserController } = require("../controllers/deleteUserController");
 
 const _ = express.Router();
@@ -8,6 +8,7 @@ const _ = express.Router();
 _.get("/all-user", allUserController);
 _.get("/user/:id", singleUserController);
 _.get("/active/user", activeUserController);
+_.get("/deactive/user", deActiveUserController);
 
 _.delete("/delete-user/:id", deleteUserController);
 

@@ -29,7 +29,17 @@ const activeUserController = async (req,res) => {
     })
 }
 
+const deActiveUserController = async (req,res) => {
+
+    let data = await User.find({status : 'deactive'})
+    res.status(200).json({
+        success : true,
+        message : `Deactive user information`,
+        data : data
+    })
+}
 
 
 
-module.exports ={allUserController,singleUserController,activeUserController,}
+
+module.exports ={allUserController,singleUserController,activeUserController,deActiveUserController,}
