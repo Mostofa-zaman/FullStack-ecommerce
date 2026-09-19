@@ -1,18 +1,24 @@
-
 require("node:dns").setServers(['8.8.8.8', '8.8.4.4'])
 require("dotenv").config()
+
 const express =require ("express")
 const app = express()
+
 const authRouter = require ('./routes/authRouter')
 const userRouter = require ('./routes/userRouter')
 const adminRouter = require ('./routes/adminRouter')
 const vendorRouter = require ('./routes/vendorRouter')
+
 const mongodbconfig = require ('./config/mongoDBconfig')
 const { adminMiddleware, vendorMiddleware, userMiddleware } = require("./middlewares/roleMiddleware")
+
+const { swaggerUI, specs } = require("./config/swagger");
 
 mongodbconfig()
 
 app.use(express.json())
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/user',userMiddleware, userRouter)
