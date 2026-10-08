@@ -3,7 +3,7 @@ const { userController } = require("../controllers/userController");
 
 const _ = express.Router();
 
-_.get("/create/product",userController);
+_.get("/alluser",userController);
 
 
 module.exports = _;

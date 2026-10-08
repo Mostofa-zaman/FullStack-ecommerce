@@ -12,7 +12,7 @@ let allCategories = async (req, res) => {
 };
 
 let createCategory = async (req, res) => {
-  let { name } = req.body;
+  let { name , owner } = req.body;
 
   if (!name) {
     return res.status(400).json({
@@ -34,6 +34,7 @@ let createCategory = async (req, res) => {
 
   let category = new Categories({
     name: name.toLowerCase(),
+    owner: owner,
   });
 
   await category.save();
@@ -89,10 +90,22 @@ let allSubCategories = async (req, res) => {
     data: subCategories,
   });
 };
+let allCategoryWiseSubCategories = async (req, res) => {
+let {id} = req.params
+
+  let subCategories = await SubCategories.find({parentCategory: id})
+
+  return res.status(200).json({
+    success: true,
+    message: "All sub categories",
+    data: subCategories,
+  });
+};
 
 module.exports = {
   allCategories,
   createCategory,
   createSubCategory,
   allSubCategories,
+  allCategoryWiseSubCategories,
 };
