@@ -1,5 +1,5 @@
 const express = require("express");
-const { createCategory, allCategories } = require("../controllers/vendorController");
+const { createCategory, allCategories, createSubCategory,allSubCategories } = require("../controllers/vendorController");
 const _ = express.Router();
 
 
@@ -34,7 +34,8 @@ const _ = express.Router();
  *         description: Unauthorized
  */
 _.post("/create/category",createCategory);
-
+_.post("/create/subcategory",createSubCategory);
+_.get("/allsubcategories", allSubCategories);
 /**
  * @swagger
  * /api/v1/user/allcategories:
@@ -52,6 +53,8 @@ _.post("/create/category",createCategory);
  *         description: Unauthorized
  */
 _.get("/allcategories", allCategories)
+
+
 
 
 module.exports = _;
