@@ -80,10 +80,19 @@ let createSubCategory = async (req, res) => {
   });
 };
 
+let allSubCategories = async (req, res) => {
+  let subCategories = await SubCategories.find({}).populate("parentCategory");
+
+  return res.status(200).json({
+    success: true,
+    message: "All sub categories",
+    data: subCategories,
+  });
+};
 
 module.exports = {
   allCategories,
   createCategory,
   createSubCategory,
-
+  allSubCategories,
 };
