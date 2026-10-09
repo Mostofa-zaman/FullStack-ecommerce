@@ -12,10 +12,10 @@ const subCategorySchema = new Schema({
         enum: ['active' , 'deactive' , 'rejected'] ,
         default: 'deactive'
     },
-    parentCategory:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Category'
-    }
+   parentCategory: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "Categories"
+}
 })
 
 module.exports = mongoose.model("SubCategories", subCategorySchema); 

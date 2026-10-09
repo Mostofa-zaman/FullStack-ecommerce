@@ -15,7 +15,11 @@ const categorySchema = new Schema({
       owner:{
             type: mongoose.Schema.Types.ObjectId,
             ref:'User'
-        }
+        },
+        subCategories:[{
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'SubCategories'
+        }]
 })
 
 module.exports = mongoose.model("Categories", categorySchema); 

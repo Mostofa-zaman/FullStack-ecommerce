@@ -1,18 +1,9 @@
 const Categories = require("../models/categorySchema");
 const SubCategories = require("../models/subCategorySchema");
-
-let allCategories = async (req, res) => {
-  let categories = await Categories.find({});
-
-  return res.status(200).json({
-    success: true,
-    message: "All categories",
-    data: categories,
-  });
-};
+const getOwnerWiseCategories = require("../utils/categorieWiseOwnerPromise");
 
 let createCategory = async (req, res) => {
-  let { name , owner } = req.body;
+  let { name, owner } = req.body;
 
   if (!name) {
     return res.status(400).json({
@@ -72,12 +63,31 @@ let createSubCategory = async (req, res) => {
     parentCategory: parentCategory,
   });
 
+  let category = await Categories.findByIdAndUpdate(
+    { _id: parentCategory },
+    { $push: { subCategories: subCategory._id } },
+    { new: true },
+  );
+
   await subCategory.save();
 
   return res.status(201).json({
     success: true,
     message: "Sub category created successfully",
     data: subCategory,
+  });
+};
+
+let allCategories = async (req, res) => {
+  let categories = await Categories.find({}).populate({
+    path: "owner",
+    select: "-password",
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "All categories",
+    data: categories,
   });
 };
 
@@ -90,10 +100,11 @@ let allSubCategories = async (req, res) => {
     data: subCategories,
   });
 };
-let allCategoryWiseSubCategories = async (req, res) => {
-let {id} = req.params
 
-  let subCategories = await SubCategories.find({parentCategory: id})
+let allCategoryWiseSubCategories = async (req, res) => {
+  let { id } = req.params;
+
+  let subCategories = await SubCategories.find({ parentCategory: id });
 
   return res.status(200).json({
     success: true,
@@ -102,10 +113,31 @@ let {id} = req.params
   });
 };
 
+let allOwnerWiseCategories = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const value = await getOwnerWiseCategories(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "All categories",
+      data: value,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch categories",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   allCategories,
   createCategory,
   createSubCategory,
   allSubCategories,
   allCategoryWiseSubCategories,
+  allOwnerWiseCategories,
 };

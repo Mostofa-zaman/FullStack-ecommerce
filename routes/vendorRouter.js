@@ -1,5 +1,5 @@
 const express = require("express");
-const { createCategory, allCategories, createSubCategory,allSubCategories,allCategoryWiseSubCategories } = require("../controllers/vendorController");
+const { createCategory, allCategories, createSubCategory,allSubCategories,allCategoryWiseSubCategories, allOwnerWiseCategories } = require("../controllers/vendorController");
 const _ = express.Router();
 
 
@@ -37,6 +37,7 @@ _.post("/create/category",createCategory);
 _.post("/create/subcategory",createSubCategory);
 _.get("/allsubcategories", allSubCategories);
 _.get("/allcategorywisesubcategories/:id", allCategoryWiseSubCategories);
+_.get("/allownerwisecategories/:id", allOwnerWiseCategories);
 /**
  * @swagger
  * /api/v1/user/allcategories:
