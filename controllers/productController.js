@@ -25,4 +25,13 @@ const createProduct = async (req, res) => {
       message: "Title must be a valid string",
     });
   }
+
+// Price validation
+if (isNaN(price) || Number(price) < 0) {
+  return res.status(400).json({
+    success: false,
+    message: "Price must be a valid non-negative number",
+  });
+}
+
 };
