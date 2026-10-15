@@ -1,5 +1,6 @@
 const express = require("express");
 const { createCategory, allCategories, createSubCategory,allSubCategories,allCategoryWiseSubCategories, allOwnerWiseCategories } = require("../controllers/vendorController");
+const { createProduct} = require("../controllers/productController");
 const _ = express.Router();
 
 
@@ -57,7 +58,9 @@ _.get("/allownerwisecategories/:id", allOwnerWiseCategories);
 _.get("/allcategories", allCategories)
 
 
+// product routes
 
+_.post('create/product', createProduct)
 
 
 
