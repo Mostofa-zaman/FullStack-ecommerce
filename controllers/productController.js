@@ -34,4 +34,12 @@ if (isNaN(price) || Number(price) < 0) {
   });
 }
 
+// Brand validation
+if (brand !== undefined && typeof brand !== "string") {
+  return res.status(400).json({
+    success: false,
+    message: "Brand must be a string",
+  });
+}
+
 };
