@@ -18,5 +18,11 @@ const createProduct = async (req, res) => {
     });
   }
 
-  
+    // Title validation
+  if (typeof title !== "string" || !title.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "Title must be a valid string",
+    });
+  }
 };
