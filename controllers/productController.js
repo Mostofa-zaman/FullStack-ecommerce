@@ -1,3 +1,5 @@
+let Product = require('../models/productSchema')
+
 const createProduct = async (req, res) => {
   const {
     title, shortDescription,description,price,brand,discountPrice,category, subCategory,
@@ -43,5 +45,6 @@ if (brand !== undefined && typeof brand !== "string") {
 }
 
 };
+
 
 module.exports = { createProduct}
