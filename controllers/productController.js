@@ -46,5 +46,15 @@ if (brand !== undefined && typeof brand !== "string") {
 
 };
 
+const slug = title.toLowercase().split(' ').join('-')
+
+const existingslug = await Product.findOne({slug: slug})
+
+if(existingslug){
+  return res.status(400).json({
+    success:false,
+    message:'slug exists'
+  })
+}
 
 module.exports = { createProduct}
