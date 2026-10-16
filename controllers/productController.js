@@ -57,4 +57,5 @@ if(existingslug){
   })
 }
 
+
 module.exports = { createProduct}

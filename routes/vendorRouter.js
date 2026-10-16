@@ -3,7 +3,6 @@ const { createCategory, allCategories, createSubCategory,allSubCategories,allCat
 const { createProduct} = require("../controllers/productController");
 const _ = express.Router();
 
-
 /**
  * @swagger
  * /api/v1/user/create/category:
@@ -57,12 +56,8 @@ _.get("/allownerwisecategories/:id", allOwnerWiseCategories);
  */
 _.get("/allcategories", allCategories)
 
-
 // product routes
 
 _.post('create/product', createProduct)
-
-
-
 
 module.exports = _;
