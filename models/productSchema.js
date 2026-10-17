@@ -50,9 +50,9 @@ const productSchema = new Schema({
         enum:['approved','pending','rejected'],
         default:'pending'
     },
-    brand:{
-        type:String 
-    },
+    // brand:{
+    //     type:String 
+    // },
     category:{
         type:Schema.Types.ObjectId,
         ref:'Category'
@@ -60,6 +60,10 @@ const productSchema = new Schema({
     subCategory:{
         type:Schema.Types.ObjectId,
         ref:'SubCategory'
+    },
+    owner:{
+        type:Schema.Types.ObjectId,
+        ref:'User'
     }
 
 },{timestamps:true})
