@@ -1,5 +1,6 @@
 let Product = require("../models/productSchema");
 
+
 const createProduct = async (req, res) => {
   let {
     title,

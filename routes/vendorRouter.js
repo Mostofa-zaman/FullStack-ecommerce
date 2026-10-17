@@ -2,6 +2,22 @@ const express = require("express");
 const { createCategory, allCategories, createSubCategory,allSubCategories,allCategoryWiseSubCategories, allOwnerWiseCategories } = require("../controllers/vendorController");
 const { createProduct} = require("../controllers/productController");
 const _ = express.Router();
+const multer = require('multer ')
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+  let uniqueName = `ecom-${Date.now()}`
+      cb(null, uniqueName + '-' + file.originalname)
+
+  }
+})
+
+const upload = multer({ storage: storage })
+
 
 /**
  * @swagger
@@ -58,6 +74,6 @@ _.get("/allcategories", allCategories)
 
 // product routes
 
-_.post('create/product', createProduct)
+_.post('create/product',upload.array('photo'), createProduct)
 
 module.exports = _;
