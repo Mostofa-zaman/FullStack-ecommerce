@@ -57,5 +57,15 @@ if(existingslug){
   })
 }
 
+const sku = `ecom-${Date.now()}`
+
+const existingSku = await Product.findOne({sku: sku})
+
+if(existingSku){
+  return res.status(400).json({
+    success:false,
+    message:'sku exists'
+  })
+}
 
 module.exports = { createProduct}
