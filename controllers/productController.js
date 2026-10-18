@@ -58,14 +58,12 @@ if (price <= 0) {
     message: "Discount price cannot be less than zero."
   });
 }
-
-  if (stock < 0) {
-    return res.status(400).json({
-      success: false,
-      message: "Stock cannot be negative.",
-    });
-  }
-
+if (stock < 0) {
+  return res.status(400).json({
+    success: false,
+    message: "Stock must be zero or greater.",
+  });
+}
 
 
 
