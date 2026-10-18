@@ -9,14 +9,14 @@ const createProduct = async (req, res) => {
     description,
     price,
     brand,
-  
     discountPrice,
     category,
     subCategory,
-   images,
+  isMain,
     owner,
     stock,
   } = req.body;
+
 
   // Required field validation
   if (
@@ -34,6 +34,16 @@ const createProduct = async (req, res) => {
       message: "Please fill all the field",
     });
   }
+  
+let images = []
+
+req.files.map((item, index) =>{
+  images.push({
+    url:item.path,
+    isMain:images == isMain ? true : false
+  })
+})
+
 
   // Title validation
   if (typeof title !== "string" || !title.trim()) {
@@ -43,15 +53,6 @@ const createProduct = async (req, res) => {
     });
   }
 
-
-    // let images = []
-
-    // req.files.map((item,index) => {
-    //     images.push({
-    //         url : item.path,
-    //         isMain : index == isMain ? true : false
-    //     })
-    // })
 
   // Price validation
   if (isNaN(price) || Number(price) < 0) {
