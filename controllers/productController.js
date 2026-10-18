@@ -1,3 +1,4 @@
+
 let Product = require("../models/productSchema");
 
 
@@ -8,11 +9,11 @@ const createProduct = async (req, res) => {
     description,
     price,
     brand,
-    discount,
+  
     discountPrice,
     category,
     subCategory,
-    isMain,
+   images,
     owner,
     stock,
   } = req.body;
@@ -23,7 +24,7 @@ const createProduct = async (req, res) => {
     !description ||
     !shortDescription ||
     !price ||
-    !discount ||
+    !discountPrice ||
     !brand ||
     !category ||
     !subCategory
@@ -42,6 +43,16 @@ const createProduct = async (req, res) => {
     });
   }
 
+
+    // let images = []
+
+    // req.files.map((item,index) => {
+    //     images.push({
+    //         url : item.path,
+    //         isMain : index == isMain ? true : false
+    //     })
+    // })
+
   // Price validation
   if (isNaN(price) || Number(price) < 0) {
     return res.status(400).json({
@@ -49,12 +60,7 @@ const createProduct = async (req, res) => {
       message: "Price must be a valid  number",
     });
   }
-  if (discount < 0) {
-    return res.status(400).json({
-      success: false,
-      message: "Discount cannot be negative.",
-    });
-  }
+
   if (stock < 0) {
     return res.status(400).json({
       success: false,
@@ -69,6 +75,7 @@ const createProduct = async (req, res) => {
       message: "Brand must be a string",
     });
   }
+
 let slug = title.toLocaleLowerCase().split(' ').join('-')
 
   let existingslug = await Product.findOne({ slug });
@@ -94,18 +101,19 @@ let slug = title.toLocaleLowerCase().split(' ').join('-')
 
      let product = await new Product({
         title,
+        slug,
+        sku,
         description,
         shortDescription,
         price,
-        discount,
+        discountPrice,
         brand,
         category,
         subCategory,
-        slug,
-        sku,
+        stock,
         images,
-        owner
-    }).save()
+        owner,
+    }).save() 
 
     res.status(201).json({
         success : true,

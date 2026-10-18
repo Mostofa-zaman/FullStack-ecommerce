@@ -28,6 +28,10 @@ const productSchema = new Schema({
         type:Number,
         required:true
     },
+    discountPrice:{
+        type:Number,
+
+    },
     images:[{
         url:{
             type:String
@@ -37,10 +41,6 @@ const productSchema = new Schema({
             default:false
         }
     }],
-    discountprice:{
-        type:Number,
-
-    },
     stock:{
         type:Number
       

@@ -2,7 +2,7 @@ const express = require("express");
 const { createCategory, allCategories, createSubCategory,allSubCategories,allCategoryWiseSubCategories, allOwnerWiseCategories } = require("../controllers/vendorController");
 const { createProduct} = require("../controllers/productController");
 const _ = express.Router();
-const multer = require('multer ')
+const multer = require("multer");
 
 
 const storage = multer.diskStorage({
@@ -74,6 +74,6 @@ _.get("/allcategories", allCategories)
 
 // product routes
 
-_.post('create/product',upload.array('photo'), createProduct)
+_.post('/create/product', upload.array("images"),createProduct)
 
 module.exports = _;
