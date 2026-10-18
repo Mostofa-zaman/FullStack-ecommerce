@@ -45,16 +45,6 @@ req.files.map((item, index) =>{
 })
 
 
-  // Title validation
-  if (typeof title !== "string" || !title.trim()) {
-    return res.status(400).json({
-      success: false,
-      message: "Title must be a valid string",
-    });
-  }
-
-
-  // Price validation
   if (isNaN(price) || Number(price) < 0) {
     return res.status(400).json({
       success: false,
@@ -69,13 +59,8 @@ req.files.map((item, index) =>{
     });
   }
 
-  // Brand validation
-  if (brand !== undefined && typeof brand !== "string") {
-    return res.status(400).json({
-      success: false,
-      message: "Brand must be a string",
-    });
-  }
+
+
 
 let slug = title.toLocaleLowerCase().split(' ').join('-')
 
@@ -88,7 +73,6 @@ let slug = title.toLocaleLowerCase().split(' ').join('-')
     });
   }
 
-  // Create SKU
   let sku = `ecom-${Date.now()}`;
 
   let existingSku = await Product.findOne({ sku });
