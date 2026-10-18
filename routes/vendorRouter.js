@@ -1,6 +1,6 @@
 const express = require("express");
 const { createCategory, allCategories, createSubCategory,allSubCategories,allCategoryWiseSubCategories, allOwnerWiseCategories } = require("../controllers/vendorController");
-const { createProduct, allproducts, deleteProduct, categoryWiseProducts, subCategoryWiseProducts} = require("../controllers/productController");
+const { createProduct, allproducts, deleteProduct, categoryWiseProducts, subCategoryWiseProducts, ownerWiseProducts} = require("../controllers/productController");
 const _ = express.Router();
 const multer = require("multer");
 
@@ -79,5 +79,6 @@ _.get("/all-products", allproducts);
 _.delete("/delete-product/:id", deleteProduct);
 _.get("/category-products/:id", categoryWiseProducts);
 _.get("/subcategory-products/:id", subCategoryWiseProducts);
+_.get("/owner-products/:id", ownerWiseProducts);
 
 module.exports = _;
