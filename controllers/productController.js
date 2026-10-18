@@ -45,12 +45,14 @@ req.files.map((item, index) =>{
 })
 
 
-  if (isNaN(price) || Number(price) < 0) {
-    return res.status(400).json({
-      success: false,
-      message: "Price must be a valid  number",
-    });
-  }
+if (price <= 0) {
+  return res.status(400).json({
+    success: false,
+    message: "Please enter a price greater than zero."
+  });
+}
+
+  
 
   if (stock < 0) {
     return res.status(400).json({
