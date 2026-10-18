@@ -157,5 +157,24 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+const categoryWiseProducts = async (req, res) => {
+    try {
+        const { id } = req.params;
 
-module.exports = { createProduct , allproducts , deleteProduct };
+        let products = await Product.find({ category: id })
+
+        return res.status(200).json({
+            success: true,
+            message: "Category wise products fetched successfully",
+            count: products.length,
+            product: products
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts };
