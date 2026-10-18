@@ -165,7 +165,7 @@ const categoryWiseProducts = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Category wise products fetched successfully",
+            message: "Category  products fetched successfully",
             count: products.length,
             product: products
         });
@@ -177,4 +177,24 @@ const categoryWiseProducts = async (req, res) => {
     }
 };
 
-module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts };
+const subCategoryWiseProducts = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        let products = await Product.find({ subCategory: id })
+
+        return res.status(200).json({
+            success: true,
+            message: "Sub Category  products fetched successfully",
+            count: products.length,
+            product: products
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts,subCategoryWiseProducts };
