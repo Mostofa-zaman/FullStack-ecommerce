@@ -52,7 +52,12 @@ if (price <= 0) {
   });
 }
 
-  
+  if (discountPrice < 0) {
+  return res.status(400).json({
+    success: false,
+    message: "Discount price cannot be less than zero."
+  });
+}
 
   if (stock < 0) {
     return res.status(400).json({
