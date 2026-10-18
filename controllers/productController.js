@@ -197,4 +197,25 @@ const subCategoryWiseProducts = async (req, res) => {
     }
 };
 
-module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts,subCategoryWiseProducts };
+const ownerWiseProducts = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        let products = await Product.find({ owner: id })
+
+        return res.status(200).json({
+            success: true,
+            message: "Owner wise products fetched successfully",
+            count: products.length,
+            product: products
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+
+module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts,subCategoryWiseProducts ,ownerWiseProducts };
