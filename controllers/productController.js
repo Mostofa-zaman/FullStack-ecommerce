@@ -113,4 +113,22 @@ let slug = title.toLocaleLowerCase().split(' ').join('-')
 
 }
 
-module.exports = { createProduct };
+const allproducts = async (req, res) => {
+    try {
+        let allProducts = await Product.find({}).populate(['category', 'subCategory' , 'owner'])
+
+        return res.status(200).json({
+            success: true,
+            message: "All products fetched successfully",
+            count: allProducts.length,
+            product: allProducts
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+module.exports = { createProduct , allproducts };
