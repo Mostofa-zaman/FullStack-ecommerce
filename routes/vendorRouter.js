@@ -75,6 +75,6 @@ _.get("/allcategories", allCategories)
 // product routes
 
 _.post('/create/product', upload.array("images"),createProduct)
-
+_.get("/all-products", allproducts);
 
 module.exports = _;
