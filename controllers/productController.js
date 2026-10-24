@@ -1,7 +1,6 @@
-
 let Product = require("../models/productSchema");
 
-const  readSheet = require('read-excel-file/node')
+const readSheet = require("read-excel-file/node");
 
 const schema = {
   title: {
@@ -38,7 +37,6 @@ const schema = {
   },
 };
 
-
 // ========================================
 
 const createProduct = async (req, res) => {
@@ -51,11 +49,10 @@ const createProduct = async (req, res) => {
     discountPrice,
     category,
     subCategory,
-  isMain,
+    isMain,
     owner,
     stock,
   } = req.body;
-
 
   // Required field validation
   if (
@@ -73,40 +70,37 @@ const createProduct = async (req, res) => {
       message: "Please fill all the field",
     });
   }
-  
-let images = []
 
-req.files.map((item, index) =>{
-  images.push({
-    url:item.path,
-    isMain:images == isMain ? true : false
-  })
-})
+  let images = [];
 
-
-if (price <= 0) {
-  return res.status(400).json({
-    success: false,
-    message: "Please enter a price greater than zero."
+  req.files.map((item, index) => {
+    images.push({
+      url: item.path,
+      isMain: images == isMain ? true : false,
+    });
   });
-}
+
+  if (price <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Please enter a price greater than zero.",
+    });
+  }
 
   if (discountPrice < 0) {
-  return res.status(400).json({
-    success: false,
-    message: "Discount price cannot be less than zero."
-  });
-}
-if (stock < 0) {
-  return res.status(400).json({
-    success: false,
-    message: "Stock must be zero or greater.",
-  });
-}
+    return res.status(400).json({
+      success: false,
+      message: "Discount price cannot be less than zero.",
+    });
+  }
+  if (stock < 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Stock must be zero or greater.",
+    });
+  }
 
-
-
-let slug = title.toLocaleLowerCase().split(' ').join('-')
+  let slug = title.toLocaleLowerCase().split(" ").join("-");
 
   let existingslug = await Product.findOne({ slug });
 
@@ -128,141 +122,197 @@ let slug = title.toLocaleLowerCase().split(' ').join('-')
     });
   }
 
-     let product = await new Product({
-        title,
-        slug,
-        sku,
-        description,
-        shortDescription,
-        price,
-        discountPrice,
-        brand,
-        category,
-        subCategory,
-        stock,
-        images,
-        owner,
-    }).save() 
+  let product = await new Product({
+    title,
+    slug,
+    sku,
+    description,
+    shortDescription,
+    price,
+    discountPrice,
+    brand,
+    category,
+    subCategory,
+    stock,
+    images,
+    owner,
+  }).save();
 
-    res.status(201).json({
-        success : true,
-        message : "Product Created Successfully",
-        product : product
-    })
-
-}
+  res.status(201).json({
+    success: true,
+    message: "Product Created Successfully",
+    product: product,
+  });
+};
 
 const allproducts = async (req, res) => {
-    try {
-        let allProducts = await Product.find({}).populate(['category', 'subCategory' , 'owner'])
+  try {
+    let allProducts = await Product.find({}).populate([
+      "category",
+      "subCategory",
+      "owner",
+    ]);
 
-        return res.status(200).json({
-            success: true,
-            message: "All products fetched successfully",
-            count: allProducts.length,
-            product: allProducts
-        })
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        })
-    }
-}
+    return res.status(200).json({
+      success: true,
+      message: "All products fetched successfully",
+      count: allProducts.length,
+      product: allProducts,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 const deleteProduct = async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        const deletedProduct = await Product.findByIdAndDelete(id);
+    const deletedProduct = await Product.findByIdAndDelete(id);
 
-        if (!deletedProduct) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found!"
-            });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Product deleted successfully",
-            data: deletedProduct
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
+    if (!deletedProduct) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found!",
+      });
     }
+
+    return res.status(200).json({
+      success: true,
+      message: "Product deleted successfully",
+      data: deletedProduct,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 const categoryWiseProducts = async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        let products = await Product.find({ category: id })
+    let products = await Product.find({ category: id });
 
-        return res.status(200).json({
-            success: true,
-            message: "Category  products fetched successfully",
-            count: products.length,
-            product: products
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
+    return res.status(200).json({
+      success: true,
+      message: "Category  products fetched successfully",
+      count: products.length,
+      product: products,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 const subCategoryWiseProducts = async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        let products = await Product.find({ subCategory: id })
+    let products = await Product.find({ subCategory: id });
 
-        return res.status(200).json({
-            success: true,
-            message: "Sub Category  products fetched successfully",
-            count: products.length,
-            product: products
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
+    return res.status(200).json({
+      success: true,
+      message: "Sub Category  products fetched successfully",
+      count: products.length,
+      product: products,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 const ownerWiseProducts = async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        let products = await Product.find({ owner: id })
+    let products = await Product.find({ owner: id });
 
-        return res.status(200).json({
-            success: true,
-            message: "Owner wise products fetched successfully",
-            count: products.length,
-            product: products
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
+    return res.status(200).json({
+      success: true,
+      message: "Owner wise products fetched successfully",
+      count: products.length,
+      product: products,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
+// bulk product
 
-// bulk product 
+// upload bulk product
+const bulkProductUploadController = async (req, res) => {
+  const result = await readSheet(req.file.path, { schema });
 
+  console.log("Excel result:", result);
 
-const bulkProductUploadController = async (req , res) =>{
+  const rows = result[0].data;
 
-const { objects, errors } = await readSheet(file, { schema })
-}
+  console.log("Excel rows:", rows);
 
-module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts,subCategoryWiseProducts ,ownerWiseProducts, bulkProductUploadController };
+  const headers = rows[0];
+
+  const objects = rows.slice(1).map((row) => {
+    let product = {};
+
+    headers.forEach((header, index) => {
+      product[header] = row[index];
+    });
+
+    return product;
+  });
+
+  console.log("Objects:", objects);
+
+  const products = objects
+    .filter((product) => product.title)
+    .map((product) => {
+      return {
+        ...product,
+        slug: product.slug
+          ? product.slug
+          : product.title.toLowerCase().trim().split(" ").join("-"),
+        sku: product.sku
+          ? product.sku
+          : `eco-${product.title.substring(0, 4)}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        images: [
+          {
+            url: product.images,
+            isMain: false,
+          },
+        ],
+      };
+    });
+
+  console.log("Products:", products);
+
+  await Product.insertMany(products);
+
+  return res.status(201).json({
+    success: true,
+    message: "All products uploaded successfully",
+  });
+};
+module.exports = {
+  createProduct,
+  allproducts,
+  deleteProduct,
+  categoryWiseProducts,
+  subCategoryWiseProducts,
+  ownerWiseProducts,
+  bulkProductUploadController,
+};
