@@ -257,4 +257,12 @@ const ownerWiseProducts = async (req, res) => {
 };
 
 
-module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts,subCategoryWiseProducts ,ownerWiseProducts };
+// bulk product 
+
+
+const bulkProductUploadController = async (req , res) =>{
+
+const { objects, errors } = await readSheet(file, { schema })
+}
+
+module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts,subCategoryWiseProducts ,ownerWiseProducts, bulkProductUploadController };
