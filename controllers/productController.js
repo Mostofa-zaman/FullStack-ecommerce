@@ -269,24 +269,19 @@ const bulkProductUploadController = async (req, res) => {
             errors: errors
         });
     }
-
-    const products = objects.map((product) => {
-        return {
-            ...product,
-            slug: product.slug
-                ? product.slug
-                : product.title.toLowerCase().split(" ").join("-"),
-            sku: product.sku
-                ? product.sku
-                : `eco-${product.title.substring(0, 4)}-${Date.now()}`,
-            images: [
-                {
-                    url: product.images,
-                    isMain: product['image.isMain'] === true || product['image.isMain'] === 'TRUE' || product['image.isMain'] === 1
-                }
-            ]
-        };
-    });
+const products = objects.map((product) => { 
+            return {
+                ...product,
+                slug : product.slug ? product.slug : product.title.toLowerCase().split(" ").join("-"),
+                sku : product.sku ? product.sku : `eco-${product.title.substring(0,4)}-${Date.now()}`,
+                images: [
+                    {
+                        url: product.images,
+                        isMain: false
+                    }
+                ]
+            };
+        });
 
     console.log(products);
 
