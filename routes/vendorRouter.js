@@ -300,6 +300,29 @@ _.post('/single/product/update/:id', upload.single("images"), updatePorductContr
  */
 _.get("/all-products", allproducts);
 
+/**
+ * @swagger
+ * /api/v1/user/delete-product/{id}:
+ *   delete:
+ *     summary: Delete a product
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Product ID
+ *     responses:
+ *       200:
+ *         description: Product deleted successfully
+ *       404:
+ *         description: Product not found
+ *       401:
+ *         description: Unauthorized
+ */
 _.delete("/delete-product/:id", deleteProduct);
 
 _.get("/category-products/:id", categoryWiseProducts);
