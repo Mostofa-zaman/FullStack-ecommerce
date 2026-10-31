@@ -307,18 +307,37 @@ const updatePorductController = async (req, res) => {
     existingProduct.images[req.body.isMain].isMain = true;
   }
 
+<<<<<<< HEAD
   // Multiple image delete
+=======
+  // if (req.body.deleteImage) {
+  //   existingProduct.images[0].isMain = true;
+  //   existingProduct.images.splice(req.body.deleteImage, 1);
+  // }
+
+
+// multiple delete 
+
+>>>>>>> 5856453 (feat(productController.js): support multiple image deletion)
   if (req.body.deleteImage) {
     let deleteImages = JSON.parse(req.body.deleteImage);
 
     deleteImages.sort((a, b) => b - a);
 
     deleteImages.map((index) => {
+<<<<<<< HEAD
       existingProduct.images.splice(index, 1);
     });
 
     existingProduct.images[0].isMain = true;
   }
+=======
+        existingProduct.images.splice(index, 1);
+    });
+
+    existingProduct.images[0].isMain = true;
+}
+>>>>>>> 5856453 (feat(productController.js): support multiple image deletion)
 
   existingProduct.save();
 
