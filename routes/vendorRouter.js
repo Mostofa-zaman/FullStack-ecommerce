@@ -402,8 +402,36 @@ _.get("/owner-products/:id", ownerWiseProducts);
 
 // bulk product routes
 
-
-_.post('/bulk/product', upload.single("files"),bulkProductUploadController)
+/**
+ * @swagger
+ * /api/v1/user/bulk/product:
+ *   post:
+ *     summary: Upload multiple products using Excel file
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - files
+ *             properties:
+ *               files:
+ *                 type: string
+ *                 format: binary
+ *                 description: Excel file containing product information
+ *     responses:
+ *       200:
+ *         description: Products uploaded successfully
+ *       400:
+ *         description: Invalid Excel file
+ *       401:
+ *         description: Unauthorized
+ */
+_.post('/bulk/product', upload.single("files"), bulkProductUploadController);
 
 
 
