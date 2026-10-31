@@ -284,6 +284,20 @@ _.post('/create/product', upload.array("images"), createProduct);
  */
 _.post('/single/product/update/:id', upload.single("images"), updatePorductController);
 
+/**
+ * @swagger
+ * /api/v1/user/all-products:
+ *   get:
+ *     summary: Get all products
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All products fetched successfully
+ *       401:
+ *         description: Unauthorized
+ */
 _.get("/all-products", allproducts);
 
 _.delete("/delete-product/:id", deleteProduct);
