@@ -50,7 +50,36 @@ const upload = multer({ storage: storage })
  *         description: Unauthorized
  */
 _.post("/create/category",createCategory);
-_.post("/create/subcategory",createSubCategory);
+/**
+ * @swagger
+ * /api/v1/user/create/subcategory:
+ *   post:
+ *     summary: Create a new subcategory
+ *     tags: [SubCategory]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Mobile Phones
+ *               category:
+ *                 type: string
+ *                 example: 65f123456789abcdef123456
+ *     responses:
+ *       201:
+ *         description: Subcategory created successfully
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
+ */
+_.post("/create/subcategory", createSubCategory);
 _.get("/allsubcategories", allSubCategories);
 _.get("/allcategorywisesubcategories/:id", allCategoryWiseSubCategories);
 _.get("/allownerwisecategories/:id", allOwnerWiseCategories);
