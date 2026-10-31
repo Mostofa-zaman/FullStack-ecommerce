@@ -49,7 +49,8 @@ const upload = multer({ storage: storage })
  *       401:
  *         description: Unauthorized
  */
-_.post("/create/category",createCategory);
+_.post("/create/category", createCategory);
+
 
 /**
  * @swagger
@@ -82,6 +83,7 @@ _.post("/create/category",createCategory);
  */
 _.post("/create/subcategory", createSubCategory);
 
+
 /**
  * @swagger
  * /api/v1/user/allsubcategories:
@@ -97,6 +99,7 @@ _.post("/create/subcategory", createSubCategory);
  *         description: Unauthorized
  */
 _.get("/allsubcategories", allSubCategories);
+
 
 /**
  * @swagger
@@ -123,7 +126,33 @@ _.get("/allsubcategories", allSubCategories);
  */
 _.get("/allcategorywisesubcategories/:id", allCategoryWiseSubCategories);
 
+
+/**
+ * @swagger
+ * /api/v1/user/allownerwisecategories/{id}:
+ *   get:
+ *     summary: Get categories by owner ID
+ *     tags: [Category]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Owner ID
+ *     responses:
+ *       200:
+ *         description: Owner-wise categories fetched successfully
+ *       404:
+ *         description: Owner not found
+ *       401:
+ *         description: Unauthorized
+ */
 _.get("/allownerwisecategories/:id", allOwnerWiseCategories);
+
+
 /**
  * @swagger
  * /api/v1/user/allcategories:
@@ -140,16 +169,75 @@ _.get("/allownerwisecategories/:id", allOwnerWiseCategories);
  *       401:
  *         description: Unauthorized
  */
-_.get("/allcategories", allCategories)
+_.get("/allcategories", allCategories);
 
 // product routes
 
-_.post('/create/product', upload.array("images"),createProduct)
+/**
+ * @swagger
+ * /api/v1/user/create/product:
+ *   post:
+ *     summary: Create a new product
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - price
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: Samsung Galaxy A15
+ *               description:
+ *                 type: string
+ *               shortDescription:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *                 example: 20000
+ *               discountPrice:
+ *                 type: number
+ *                 example: 18000
+ *               stock:
+ *                 type: number
+ *                 example: 10
+ *               category:
+ *                 type: string
+ *                 example: 65f123456789abcdef123456
+ *               subCategory:
+ *                 type: string
+ *                 example: 65f123456789abcdef123457
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *     responses:
+ *       201:
+ *         description: Product created successfully
+ *       400:
+ *         description: Invalid product data
+ *       401:
+ *         description: Unauthorized
+ */
+_.post('/create/product', upload.array("images"), createProduct);
+
 _.post('/single/product/update/:id', upload.single("images"),updatePorductController)
+
 _.get("/all-products", allproducts);
+
 _.delete("/delete-product/:id", deleteProduct);
+
 _.get("/category-products/:id", categoryWiseProducts);
+
 _.get("/subcategory-products/:id", subCategoryWiseProducts);
+
 _.get("/owner-products/:id", ownerWiseProducts);
 
 // bulk product routes
