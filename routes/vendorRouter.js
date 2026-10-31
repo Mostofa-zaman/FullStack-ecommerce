@@ -50,6 +50,7 @@ const upload = multer({ storage: storage })
  *         description: Unauthorized
  */
 _.post("/create/category",createCategory);
+
 /**
  * @swagger
  * /api/v1/user/create/subcategory:
@@ -80,8 +81,48 @@ _.post("/create/category",createCategory);
  *         description: Unauthorized
  */
 _.post("/create/subcategory", createSubCategory);
+
+/**
+ * @swagger
+ * /api/v1/user/allsubcategories:
+ *   get:
+ *     summary: Get all subcategories
+ *     tags: [SubCategory]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: All subcategories fetched successfully
+ *       401:
+ *         description: Unauthorized
+ */
 _.get("/allsubcategories", allSubCategories);
+
+/**
+ * @swagger
+ * /api/v1/user/allcategorywisesubcategories/{id}:
+ *   get:
+ *     summary: Get subcategories by category ID
+ *     tags: [SubCategory]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Category ID
+ *     responses:
+ *       200:
+ *         description: Subcategories fetched successfully
+ *       404:
+ *         description: Category not found
+ *       401:
+ *         description: Unauthorized
+ */
 _.get("/allcategorywisesubcategories/:id", allCategoryWiseSubCategories);
+
 _.get("/allownerwisecategories/:id", allOwnerWiseCategories);
 /**
  * @swagger
