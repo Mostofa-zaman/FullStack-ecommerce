@@ -325,6 +325,29 @@ _.get("/all-products", allproducts);
  */
 _.delete("/delete-product/:id", deleteProduct);
 
+/**
+ * @swagger
+ * /api/v1/user/category-products/{id}:
+ *   get:
+ *     summary: Get products by category ID
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Category ID
+ *     responses:
+ *       200:
+ *         description: Category-wise products fetched successfully
+ *       404:
+ *         description: Category not found
+ *       401:
+ *         description: Unauthorized
+ */
 _.get("/category-products/:id", categoryWiseProducts);
 
 _.get("/subcategory-products/:id", subCategoryWiseProducts);
