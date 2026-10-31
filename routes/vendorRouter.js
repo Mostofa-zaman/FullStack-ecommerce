@@ -228,7 +228,61 @@ _.get("/allcategories", allCategories);
  */
 _.post('/create/product', upload.array("images"), createProduct);
 
-_.post('/single/product/update/:id', upload.single("images"),updatePorductController)
+/**
+ * @swagger
+ * /api/v1/user/single/product/update/{id}:
+ *   post:
+ *     summary: Update a product
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Product ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               shortDescription:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               discountPrice:
+ *                 type: number
+ *               stock:
+ *                 type: number
+ *               isMain:
+ *                 type: integer
+ *                 example: 1
+ *                 description: Image index to set as the main image
+ *               deleteImage:
+ *                 type: string
+ *                 example: "[0,2]"
+ *                 description: Image indexes to delete
+ *               images:
+ *                 type: string
+ *                 format: binary
+ *                 description: Upload one image
+ *     responses:
+ *       200:
+ *         description: Product updated successfully
+ *       404:
+ *         description: Product not found
+ *       401:
+ *         description: Unauthorized
+ */
+_.post('/single/product/update/:id', upload.single("images"), updatePorductController);
 
 _.get("/all-products", allproducts);
 
