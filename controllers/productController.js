@@ -328,4 +328,4 @@ const updatePorductController = async (req, res) => {
   });
 };
 
-module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts,subCategoryWiseProducts ,ownerWiseProducts, bulkProductUploadController };
+module.exports = { createProduct , allproducts , deleteProduct ,categoryWiseProducts,subCategoryWiseProducts ,ownerWiseProducts, bulkProductUploadController,updatePorductController };
