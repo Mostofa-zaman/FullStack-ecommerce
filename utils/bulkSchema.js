@@ -31,6 +31,15 @@ const schema = {
     column: "status",
     type: String,
   },
+  sku: {
+    column: "sku",
+    type: String,
+},
+slug: {
+    column: "slug",
+    type: String,
+},
 };
+
 
 module.exports = schema;

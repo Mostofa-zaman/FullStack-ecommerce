@@ -1,6 +1,6 @@
 const express = require("express");
 const { createCategory, allCategories, createSubCategory,allSubCategories,allCategoryWiseSubCategories, allOwnerWiseCategories } = require("../controllers/vendorController");
-const { createProduct, allproducts, deleteProduct, categoryWiseProducts, subCategoryWiseProducts, ownerWiseProducts, bulkProductUploadController} = require("../controllers/productController");
+const { createProduct, allproducts, deleteProduct, categoryWiseProducts, subCategoryWiseProducts, ownerWiseProducts, bulkProductUploadController, updatePorductController} = require("../controllers/productController");
 const _ = express.Router();
 const multer = require("multer");
 
@@ -75,6 +75,7 @@ _.get("/allcategories", allCategories)
 // product routes
 
 _.post('/create/product', upload.array("images"),createProduct)
+_.post('/single/product/update/:id', upload.single("images"),updatePorductController)
 _.get("/all-products", allproducts);
 _.delete("/delete-product/:id", deleteProduct);
 _.get("/category-products/:id", categoryWiseProducts);
