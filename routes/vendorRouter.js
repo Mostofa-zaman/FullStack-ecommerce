@@ -350,6 +350,29 @@ _.delete("/delete-product/:id", deleteProduct);
  */
 _.get("/category-products/:id", categoryWiseProducts);
 
+/**
+ * @swagger
+ * /api/v1/user/subcategory-products/{id}:
+ *   get:
+ *     summary: Get products by subcategory ID
+ *     tags: [Product]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Subcategory ID
+ *     responses:
+ *       200:
+ *         description: Subcategory-wise products fetched successfully
+ *       404:
+ *         description: Subcategory not found
+ *       401:
+ *         description: Unauthorized
+ */
 _.get("/subcategory-products/:id", subCategoryWiseProducts);
 
 _.get("/owner-products/:id", ownerWiseProducts);
