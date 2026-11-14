@@ -9,7 +9,7 @@ const createCart = async (req, res) => {
         if (!productId || !owner) {
             return res.status(400).json({
                 success: false,
-                message: "Product ID and owner are required"
+                message: "Product ID and owner required"
             });
         }
 
@@ -22,7 +22,7 @@ const createCart = async (req, res) => {
             if (total > existingProduct.stock) {
                 return res.status(400).json({
                     success: false,
-                    message: "Requested quantity exceeds available stock"
+                    message: "Requested quantity unavailable stock"
                 });
             }
 
