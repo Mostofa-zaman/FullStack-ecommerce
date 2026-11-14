@@ -123,4 +123,25 @@ const increDecre = async (req, res) => {
     }
 };
 
-module.exports = { createCart, increDecre  };
+const getCart = async (req, res) => {
+    try {
+        let { owner } = req.params;
+
+        let carts = await Cart.find({ owner }).populate("productId");
+
+        console.log(carts);
+
+        return res.status(200).json({
+            success: true,
+            message: "Cart fetched successfully",
+            data: carts
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch cartItems",
+            error: error.message
+        });
+    }
+};
+module.exports = { createCart, increDecre ,getCart  };
