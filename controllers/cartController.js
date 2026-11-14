@@ -67,6 +67,60 @@ const createCart = async (req, res) => {
 };
 
 
+const increDecre = async (req, res) => {
+    try {
+        let { cartId, quantity, owner, type } = req.body;
 
+        let existingCart = await Cart.findOne({ _id: cartId, owner }).populate("productId");
 
-module.exports = { createCart,  };
+        if (!existingCart) {
+            return res.status(404).json({
+                success: false,
+                message: "Cart item not found"
+            });
+        }
+
+        if (type == "plus") {
+            let total = existingCart.quantity + quantity;
+
+            if (total > existingCart.productId.stock) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Requested quantity exceeds available stock"
+                });
+            } else {
+                existingCart.quantity = existingCart.quantity + quantity;
+            }
+
+            existingCart.quantity = existingCart.quantity + 1;
+        } else {
+            if (existingCart.quantity > 1) {
+                existingCart.quantity = existingCart.quantity - 1;
+            } else {
+                // delete cart if quantity becomes 0
+                await Cart.findByIdAndDelete(cartId);
+
+                return res.status(200).json({
+                    success: true,
+                    message: "Item removed from cart"
+                });
+            }
+        }
+
+        await existingCart.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Cart updated successfully",
+            data: existingCart
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Failed to update cart quantity",
+            error: error.message
+        });
+    }
+};
+
+module.exports = { createCart, increDecre  };
