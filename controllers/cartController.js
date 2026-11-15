@@ -1,5 +1,5 @@
-let Product = require("../models/productSchema");
-let Cart = require("../models/cartSchema");
+const Product = require("../models/productSchema");
+const Cart = require("../models/cartSchema");
 
 // create cart
 const createCart = async (req, res) => {
