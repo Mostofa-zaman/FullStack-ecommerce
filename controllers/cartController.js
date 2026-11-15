@@ -22,7 +22,7 @@ const createCart = async (req, res) => {
             if (total > existingProduct.stock) {
                 return res.status(400).json({
                     success: false,
-                    message: "Requested quantity unavailable stock"
+                    message: "Request quantity unavailable in stock"
                 });
             }
 
@@ -30,13 +30,12 @@ const createCart = async (req, res) => {
             await existingCart.save();
             return res.status(201).json({
                 success: true,
-                message: "Cart item quantity updated successfully",
+                message: "cart  quantity updated successfully",
                 data: existingCart
             });
         }
 
-        if (existingProduct.stock >= quantity) {
-            console.log("Product available");
+        if (existingProduct.stock >= quantity)
 
             let cart = await new Cart({
                 productId,
@@ -46,21 +45,20 @@ const createCart = async (req, res) => {
 
             return res.status(201).json({
                 success: true,
-                message: "Product added to cart successfully",
+                message: "Product add to cart successfully",
                 data: cart
             });
         } else {
-            console.log("Product not available");
 
             return res.status(400).json({
                 success: false,
-                message: "Product is currently out of stock"
+                message: "Product is out of stock"
             });
         }
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: "Failed to add product to cart",
+            message: "Failed to add product cart",
             error: error.message
         });
     }
@@ -76,7 +74,7 @@ const increDecre = async (req, res) => {
         if (!existingCart) {
             return res.status(404).json({
                 success: false,
-                message: "Cart item not found"
+                message: "Cart not found"
             });
         }
 
@@ -86,7 +84,7 @@ const increDecre = async (req, res) => {
             if (total > existingCart.productId.stock) {
                 return res.status(400).json({
                     success: false,
-                    message: "Requested quantity exceeds available stock"
+                    message: "Requested quantity not available stock"
                 });
             } else {
                 existingCart.quantity = existingCart.quantity + quantity;
@@ -97,12 +95,12 @@ const increDecre = async (req, res) => {
             if (existingCart.quantity > 1) {
                 existingCart.quantity = existingCart.quantity - 1;
             } else {
-                // delete cart if quantity becomes 0
+               
                 await Cart.findByIdAndDelete(cartId);
 
                 return res.status(200).json({
                     success: true,
-                    message: "Item removed from cart"
+                    message: "item remove from cart"
                 });
             }
         }
@@ -111,13 +109,13 @@ const increDecre = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Cart updated successfully",
+            message: "Cart update successfully",
             data: existingCart
         });
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: "Failed to update cart quantity",
+            message: "Failed to update cart ",
             error: error.message
         });
     }
@@ -133,13 +131,13 @@ const getCart = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Cart fetched successfully",
+            message: "Cart fetch successfully",
             data: carts
         });
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: "Failed to fetch cartItems",
+            message: "failed to fetch cart item",
             error: error.message
         });
     }
